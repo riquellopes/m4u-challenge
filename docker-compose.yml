@@ -9,6 +9,7 @@ services:
      - 5001:5001
     volumes:
      - ./web:/web
+    working_dir: /web
     depends_on:
      - api
     env_file:
@@ -23,17 +24,16 @@ services:
      - 5000:5000
     volumes:
      - ./api:/api
+    working_dir: /api
     depends_on:
-     - mysql
+     - mongo
     links:
-     - mysql
+     - mongo
     env_file:
      - api/.env
-    command: ""
-  mysql:
+    command: node server.js
+  mongo:
     container_name: bookmark-db
-    image: mysql:5.7
+    image: mongo
     expose:
-      - "3306"
-    environment:
-      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+      - "27017"
