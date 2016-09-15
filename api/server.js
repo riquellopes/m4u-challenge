@@ -15,7 +15,7 @@ var logger = log4js.getLogger("booklog");
 
 // Get views
 var user = require("./views/user");
-// var bookmark = require("./views/bookmark");
+var bookmark = require("./views/bookmark");
 
 app.use(log4js.connectLogger(logger, { level: 'auto' }));
 app.use(body_parser.urlencoded({ extended: true }));
@@ -23,7 +23,7 @@ app.use(body_parser.json());
 
 app.set('json spaces', 2);
 app.use("/user", user);
-// app.use("/bookmark", bookmark);
+app.use("/bookmark", bookmark);
 
 // to connect
 mongoose.connect(mongo_uri);

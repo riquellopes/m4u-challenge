@@ -1,8 +1,9 @@
 // Bookmark views
 var router = require('express').Router();
+var log4js = require('log4js');
 
 // Get middleware
-var user = require("./middleware/user");
+var user = require("../middlewares/user");
 
 // Model
 var Bookmark = require("../models/bookmark");
@@ -33,3 +34,4 @@ router.put("/:id_bookmark", function(){
 });
 
 router.use(user.UserMiddleware);
+module.exports = router;
