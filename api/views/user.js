@@ -2,6 +2,10 @@
 var router = require('express').Router();
 var jwt = require('jwt-simple');
 var moment = require('moment');
+var log4js = require('log4js');
+
+// Get logger
+var logger = log4js.getLogger("booklog");
 
 // Get token secret
 var TOKEN_SECRET = process.env.TOKEN_SECRET;
@@ -10,8 +14,6 @@ var TOKEN_SECRET = process.env.TOKEN_SECRET;
 var User = require("../models/user");
 
 router.post("/", function(request, response){
-    console.log("POST USER - ", request.body);
-
     var user = new User({
         email: request.body.email,
         password: request.body.password
@@ -19,10 +21,12 @@ router.post("/", function(request, response){
 
     user.save(function(error){
         if( error ){
-            response.send(error);
+            logger.error(error);
+            return response.status(409).json({msg: "User can't be created."});
         }
 
-        response.json({msg: "User created", user: user});
+        logger.info("User created successfull - " + request.body.email);
+        response.status(201).json({msg: "User created", user: user});
     });
 });
 
