@@ -1,0 +1,44 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="bt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Bookmark |{% block title %} Home {% endblock %}</title>
+        <!-- <link rel="stylesheet" href="{% static 'bootstrap-3.3.7/css/bootstrap.min.css' %}"> -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script> -->
+    </head>
+<body>
+    <div class="container">
+        <div class="header">
+            <nav>
+              <ul class="nav nav-pills pull-right">
+                <li>
+                    <div id="navbar" class="navbar-collapse collapse">
+                      <form class="navbar-form navbar-right" method="post" action="{% url "bookmark_login" %}">
+                            {% csrf_token %}
+                            <div class="form-group">
+                              <input type="text" placeholder="e-mail" class="form-control" name="email" required>
+                            </div>
+                            <div class="form-group">
+                              <input type="password" placeholder="senha" class="form-control" name="password" required>
+                            </div>
+                            <button type="submit" class="btn btn-success">Logar</button>
+                            <a href="#" class="btn btn-info">Criar conta</a>
+                      </form>
+                    </div>
+                </li>
+                <!-- <li role="presentation" class="active"><a href="#">Home</a></li> -->
+                <!-- <li role="presentation"><a href="#">Listar usuarios</a></li> -->
+                <!-- <li role="presentation"><a href="{% url 'bookmark_login' %}">Logar</a></li> -->
+                <!-- <li role="presentation"><a href="#">Criar conta</a></li> -->
+              </ul>
+              <h3><a href="{% url "home" %}">Bookmark</a></h3>
+            </nav>
+
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>

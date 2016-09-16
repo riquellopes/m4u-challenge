@@ -34,3 +34,12 @@ collectstatic:
 
 gunicorn:
 	gunicorn bookmarks.wsgi:application --bind=0.0.0.0:5001
+
+shell:
+	${PYTHON} manage.py shell --settings=bookmarks.settings.base
+
+migrate:
+	${PYTHON} manage.py migrate --settings=bookmarks.settings.base
+
+makemigrations:
+	${PYTHON} manage.py makemigrations --settings=bookmarks.settings.base

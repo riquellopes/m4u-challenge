@@ -4,17 +4,18 @@ from functools import wraps
 BOOKMARK_API = settings.BOOKMARK_API
 
 
-def validation():
-    @wraps
-    def auth(self, **kwargs):
-        pass
+class BookmarkUserApiException(Exception):
+    pass
+
+
+def validation(func):
+    @wraps(func)
+    def auth(*args, **kwargs):
+        self = args[0]
     return auth
 
 
 class BookmarkApi(object):
-
-    def auth(self, user, password):
-        pass
 
     # @validation
     def list(self):
@@ -35,6 +36,12 @@ class BookmarkApi(object):
 
 class BookmarkUserApi(object):
 
+    def login(self, email, password):
+        pass
+
+    def logout(self):
+        pass
+
     def create(self):
         pass
 
@@ -42,4 +49,7 @@ class BookmarkUserApi(object):
         pass
 
     def list(self):
+        pass
+
+    def is_ok(self):
         pass

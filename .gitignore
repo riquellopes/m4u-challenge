@@ -136,3 +136,6 @@ ENV/
 
 # Sqlite
 *.sqlite3
+
+# removing migration
+migrations/
