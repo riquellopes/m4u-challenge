@@ -2,6 +2,7 @@ version: '2'
 services:
   web:
     build: web/.
+    restart: always
     container_name: bookmark-web
     expose:
      - 5001
@@ -9,14 +10,14 @@ services:
      - 5001:5001
     volumes:
      - ./web:/web
-    working_dir: /web
     depends_on:
      - api
     env_file:
      - web/.env
-    command: ""
+    command: /bin/bash -c "make debug"
   api:
     build: api/.
+    restart: always
     container_name: bookmark-api
     expose:
      - 5000
