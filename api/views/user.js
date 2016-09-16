@@ -35,13 +35,12 @@ router.post("/auth", function(request, response){
     var password = request.body.password;
 
     if( !email || !password ){
-        response.send(401);
+        return response.status(401).json({msg: "User or Password not set."});
     }
 
     User.findOne({email: email}, function(error, user){
-
         if(error){
-            response.send(401);
+            return response.send(401);
         }
 
         user.validation(password, function(isMatch){
