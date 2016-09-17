@@ -3,6 +3,7 @@ from django.contrib.auth.backends import ModelBackend
 from django.contrib.auth import get_user_model
 
 from mark.api import BookmarkUserApi, BookmarkUserApiException
+from mark.models import Profile
 
 
 class BookmarkModelBackend(ModelBackend):
@@ -17,9 +18,18 @@ class BookmarkModelBackend(ModelBackend):
             return None
 
         try:
-            return UserModel.objects.get(username=api.username)
+            user = UserModel.objects.get(username=api.username)
         except UserModel.DoesNotExist:
             create = UserModel.objects.create
             if api.is_admin:
                 create = UserModel.objects.create_user
-            return create(username=api.username, password=settings.BOOKMARK_DEFAULT_PASS)
+            user = create(username=api.username, password=settings.BOOKMARK_DEFAULT_PASS)
+
+        # Create profile
+        try:
+            profile = Profile.objects.get(user=user)
+        except Profile.DoesNotExist:
+            profile = Profile()
+        profile.token = api.token
+        profile.save()
+        return user

@@ -41,8 +41,7 @@ class BookmarkUserApi(object):
     def _set_user(self, json):
         self.username = json['user']['username']
         self.id = json['user']['_id']
-        if "token" in json:
-            self.token = json['token']
+        self.token = json['token'] if "token" in json else None
         self.is_admin = json['user']['is_admin']
         return json
 
