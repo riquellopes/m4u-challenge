@@ -1,0 +1,15 @@
+{% extends "mark/base.html" %} {% block title %}Login{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-5 text-center">
+            <h2 >Criar conta</h2>
+            <form action="{%url "account"%}" method="post">
+                  {% csrf_token %}
+                  {{form.as_div}}
+                  <input type="submit" class="btn btn-default btn-small" name="" value="Cadastrar" />
+                  <input type="reset" class="btn btn-default btn-small" name="" value="Cancelar" />
+            </form>
+        </div>
+    </div>
+{% endblock %}

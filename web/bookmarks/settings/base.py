@@ -33,6 +33,8 @@ AUTHENTICATION_BACKENDS = (
     # 'django.contrib.auth.backends.ModelBackend',
 )
 
+LOGIN_REDIRECT_URL = "/"
+
 # Application definition
 
 INSTALLED_APPS = [

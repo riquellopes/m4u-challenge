@@ -8,32 +8,46 @@
         <title>Bookmark |{% block title %} Home {% endblock %}</title>
         <!-- <link rel="stylesheet" href="{% static 'bootstrap-3.3.7/css/bootstrap.min.css' %}"> -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-        <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script> -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     </head>
 <body>
     <div class="container">
+        {% if messages %}
+            <ul class="flashes">
+              {% for message in messages %}
+                <li>
+                    <div class="alert alert-success alert-dismissible fade in">
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                      <p>{{ message }}</p>
+                    </div>
+                </li>
+              {% endfor %}
+            </ul>
+        {% endif %}
         <div class="header">
             <nav>
               <ul class="nav nav-pills pull-right">
-                <li>
-                    <div id="navbar" class="navbar-collapse collapse">
-                      <form class="navbar-form navbar-right" method="post" action="{% url "bookmark_login" %}">
-                            {% csrf_token %}
-                            <div class="form-group">
-                              <input type="text" placeholder="e-mail" class="form-control" name="email" required>
-                            </div>
-                            <div class="form-group">
-                              <input type="password" placeholder="senha" class="form-control" name="password" required>
-                            </div>
-                            <button type="submit" class="btn btn-success">Logar</button>
-                            <a href="#" class="btn btn-info">Criar conta</a>
-                      </form>
-                    </div>
+                <li role="presentation">
+                    {% if not user.is_authenticated %}
+                        <div id="navbar" class="navbar-collapse collapse">
+                              <form class="navbar-form navbar-right" method="post" action="{% url "bookmark_login" %}">
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                      <input type="text" placeholder="usuário" class="form-control" name="username" required>
+                                    </div>
+                                    <div class="form-group">
+                                      <input type="password" placeholder="senha" class="form-control" name="password" required>
+                                    </div>
+                                    <button type="submit" class="btn btn-success">Logar</button>
+                                    <a href="{% url "account" %}" class="btn btn-info">Criar conta</a>
+                              </form>
+                          </div>
+                      {% else %}
+                          <a href="{% url "bookmark_logout" %}" class="btn btn-danger btn-sm" role="button">Sair</a>
+                      {% endif %}
                 </li>
-                <!-- <li role="presentation" class="active"><a href="#">Home</a></li> -->
-                <!-- <li role="presentation"><a href="#">Listar usuarios</a></li> -->
-                <!-- <li role="presentation"><a href="{% url 'bookmark_login' %}">Logar</a></li> -->
-                <!-- <li role="presentation"><a href="#">Criar conta</a></li> -->
               </ul>
               <h3><a href="{% url "home" %}">Bookmark</a></h3>
             </nav>

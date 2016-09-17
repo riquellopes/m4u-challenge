@@ -41,7 +41,8 @@ class BookmarkUserApi(object):
     def _set_user(self, json):
         self.username = json['user']['username']
         self.id = json['user']['_id']
-        self.token = json['token']
+        if "token" in json:
+            self.token = json['token']
         self.is_admin = json['user']['is_admin']
         return json
 
@@ -63,7 +64,7 @@ class BookmarkUserApi(object):
         response = requests.post(
             "{}/user".format(BOOKMARK_API), data={"username": username, "password": password})
 
-        if response.status_code == 200:
+        if response.status_code == 201:
             return self._set_user(response.json())
         raise BookmarkUserApiException("User does not created.")
 
