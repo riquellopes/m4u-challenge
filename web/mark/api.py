@@ -1,7 +1,6 @@
-from django.conf import settings
-from functools import wraps
-
 import requests
+
+from django.conf import settings
 
 BOOKMARK_API = settings.BOOKMARK_API
 
@@ -10,30 +9,52 @@ class BookmarkUserApiException(Exception):
     pass
 
 
-def validation(func):
-    @wraps(func)
-    def auth(*args, **kwargs):
-        self = args[0]
-    return auth
-
-
 class BookmarkApi(object):
 
-    # @validation
+    def __init__(self, token):
+        self.token = token
+
     def list(self):
-        pass
+        response = requests.get(
+            "{}/bookmark/".format(BOOKMARK_API), headers={"x-access-token": self.token})
 
-    # @validation
+        if response.status_code == 200:
+            json = response.json()
+            return ({"url": bookmark['url'], "id": bookmark['_id']} for bookmark in json)
+        return []
+
     def get(self, id_bookmark):
-        pass
+        response = requests.get(
+            "{}/bookmark/{}".format(BOOKMARK_API, id_bookmark), headers={"x-access-token": self.token})
 
-    # @validation
+        if response.status_code == 200:
+            return response.json()
+        raise BookmarkUserApiException("Bookmark does not exist.")
+
     def delete(self, id_bookmark):
-        pass
+        response = requests.delete(
+            "{}/bookmark/{}".format(BOOKMARK_API, id_bookmark), headers={"x-access-token": self.token})
 
-    # @validation
+        if response.status_code == 200:
+            return True
+        raise BookmarkUserApiException("Bookmark was not deleted.")
+
     def updated(self, id_bookmark, url):
-        pass
+        response = requests.put(
+            "{}/bookmark/{}".format(BOOKMARK_API, id_bookmark),
+            headers={"x-access-token": self.token}, data={"url": url})
+
+        if response.status_code == 201:
+            return True
+        raise BookmarkUserApiException("Bookmark was not updated.")
+
+    def create(self, url):
+        response = requests.post(
+            "{}/bookmark/".format(BOOKMARK_API), headers={"x-access-token": self.token}, data={"url": url})
+
+        if response.status_code == 201:
+            return True
+        raise BookmarkUserApiException("Bookmark was not created.")
 
 
 class BookmarkUserApi(object):
@@ -71,7 +92,4 @@ class BookmarkUserApi(object):
         pass
 
     def list(self):
-        pass
-
-    def is_ok(self):
         pass

@@ -82,6 +82,7 @@ router.post("/", function(request, response){
 router.put("/:id_bookmark", function(request, response){
     var user = request.user;
     var id_bookmark = request.params.id_bookmark;
+    var url = request.body.url;
 
     Bookmark.findOneAndUpdate({_id:id_bookmark, user:user}, {url:url}, function(error, document){
         if( error ){

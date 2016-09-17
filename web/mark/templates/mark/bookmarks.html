@@ -1,0 +1,17 @@
+{% extends "mark/base.html" %} {% block title %}Bookmarks{% endblock %}
+
+{% block content %}
+    <div class="row marketing">
+        <div class="col-lg-10">
+          <ul>
+              {% for bookmark in object_list %}
+                  <li>
+                      <p><a href="{{bookmark.url}}" target="_blank">{{bookmark.url}}</a></p>
+                      <a href="{% url 'bookmarks_updated' pk=bookmark.id %}" class="btn btn-success btn-sm" role="button" aria-pressed="true">Editar</a>
+                      <a href="{% url 'bookmarks_deleted' pk=bookmark.id %}" class="btn btn-danger btn-sm" role="button" aria-pressed="true">Remover</a>
+                  </li>
+              {% endfor %}
+          </ul>
+        </div>
+    </div>
+{% endblock %}

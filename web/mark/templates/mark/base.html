@@ -29,8 +29,8 @@
         <div class="header">
             <nav>
               <ul class="nav nav-pills pull-right">
-                <li role="presentation">
-                    {% if not user.is_authenticated %}
+                {% if not user.is_authenticated %}
+                    <li role="presentation">
                         <div id="navbar" class="navbar-collapse collapse">
                               <form class="navbar-form navbar-right" method="post" action="{% url "bookmark_login" %}">
                                     {% csrf_token %}
@@ -44,10 +44,15 @@
                                     <a href="{% url "account" %}" class="btn btn-info">Criar conta</a>
                               </form>
                           </div>
-                      {% else %}
-                          <a href="{% url "bookmark_logout" %}" class="btn btn-danger btn-sm" role="button">Sair</a>
-                      {% endif %}
-                </li>
+                    </li>
+                {% else %}
+                    <li role="presentation">
+                        <a href="{% url "bookmarks_create" %}" class="btn btn-info btn-sm" role="button">Criar bookmark</a>
+                    </li>
+                    <li role="presentation">
+                        <a href="{% url "bookmark_logout" %}" class="btn btn-danger btn-sm" role="button">Sair</a>
+                    </li>
+                {% endif %}
               </ul>
               <h3><a href="{% url "home" %}">Bookmark</a></h3>
             </nav>

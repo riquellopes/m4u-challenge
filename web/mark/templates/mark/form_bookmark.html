@@ -1,0 +1,15 @@
+{% extends "mark/base.html" %} {% block title %}Criar bookmark{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-5 text-center">
+            <h2 >{{title}}</h2>
+            <form action="{{action_form}}" method="post">
+                  {% csrf_token %}
+                  {{form.as_div}}
+                  <input type="submit" class="btn btn-default btn-small" name="" value="{{action_button}}" />
+                  <input type="reset" class="btn btn-default btn-small" name="" value="Cancelar" />
+            </form>
+        </div>
+    </div>
+{% endblock %}
