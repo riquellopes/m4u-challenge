@@ -95,3 +95,11 @@ class BookmarkDeleteView(DeleteView):
         except:
             messages.error(request, "Erro ao tentar remover bookmark.")
         return redirect(reverse_lazy("bookmarks"))
+
+
+class BookmarkListGroupByView(ListView):
+    template_name = "mark/bookmarks_group_by.html"
+
+    def get_queryset(self):
+        api = BookmarkApi(self.request.user.profile.token)
+        return api.list_groupby()

@@ -22,13 +22,49 @@ router.get("/", function(request, response){
 
     Bookmark.find({user:user}, hide_fields, function(error, list){
         if( error ){
-            logger.error("Error");
+            logger.error("Error", error);
         }
 
         logger.info("Bookmark size :: user", list.length, user._id);
         response.json(list);
     });
 
+});
+
+// List bookmark groupby user
+router.get("/group-by", function(request, response){
+    var user = request.user;
+
+    if(!user.is_admin){
+        logger.warn("User is not an admin.", user);
+        return response.status(401).json({msg: "User is not an admin"});
+    }
+
+    Bookmark.find({})
+            .populate({path: 'user', options: { sort: { 'user': 1 } } })
+            .exec(function(error, list){
+                if(error){
+                    logger.error("Error", error);
+                    return response.status(404).json({message: "not found"});
+                }
+
+                var bookmarks = {};
+                for( bookmark in list ){
+                    var object = list[bookmark];
+
+                    if( object.user == null ){
+                        continue;
+                    }
+
+                    if (!(object.user._id in bookmarks)){
+                        bookmarks[object.user._id] = {user: object.user.username, list:[]};
+                    }
+
+                    bookmarks[object.user._id].list.push(object.url);
+                }
+
+                response.json(bookmarks);
+            });
 });
 
 // Get specific bookmark
@@ -40,7 +76,7 @@ router.get("/:id_bookmark", function(request, response){
 
     Bookmark.findOne({_id:id_bookmark, user:user}, hide_fields, function(error, document){
         if(error){
-            logger.error("Error");
+            logger.error("Error", error);
             return response.status(404).json({message: "not found"});
         }
 

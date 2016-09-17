@@ -56,6 +56,14 @@ class BookmarkApi(object):
             return True
         raise BookmarkUserApiException("Bookmark was not created.")
 
+    def list_groupby(self):
+        response = requests.get(
+            "{}/bookmark/group-by".format(BOOKMARK_API), headers={"x-access-token": self.token})
+
+        if response.status_code == 200:
+            return response.json()
+        raise BookmarkUserApiException("Bookmark does not exist.")
+
 
 class BookmarkUserApi(object):
 

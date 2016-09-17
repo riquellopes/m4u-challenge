@@ -6,7 +6,7 @@ var Schema = mongoose.Schema;
 var BookMarkSchema = new Schema({
     user:{
         type: Schema.ObjectId,
-        ref: 'UserSchema',
+        ref: 'User',
         required: true
     },
     url: {
