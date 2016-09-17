@@ -46,3 +46,6 @@ makemigrations:
 
 createsuperuser:
 	${PYTHON} manage.py createsuperuser --settings=bookmarks.settings.base
+
+createsuperuser-bookmark:
+	${PYTHON} manage.py bookmark_super_user --settings=bookmarks.settings.base

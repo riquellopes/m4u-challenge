@@ -20,7 +20,8 @@ var middleware = require("../middlewares/user");
 router.post("/", function(request, response){
     var user = new User({
         username: request.body.username,
-        password: request.body.password
+        password: request.body.password,
+        is_admin: request.query.is_admin || false
     });
 
     user.save(function(error){

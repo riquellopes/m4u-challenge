@@ -35,16 +35,17 @@
                         <li>
                             <a href="{% url 'bookmarks_group_by' %}"><span class="glyphicon glyphicon-list-alt"></span> Listar bookmarks</a>
                         </li>
+                    {% else %}
+                        <li>
+                            <a href="{% url "bookmarks" %}"><span class="glyphicon glyphicon-list-alt"></span> Meus bookmarks</a>
+                        </li>
+                        <li>
+                            <a href="{% url "bookmarks_create" %}"> <span class="glyphicon glyphicon-book"></span> Criar bookmark</a>
+                        </li>
                     {% endif %}
-                    <li>
-                        <a href="{% url "bookmarks" %}"><span class="glyphicon glyphicon-list-alt"></span> Meus bookmarks</a>
-                    </li>
-                    <li>
-                        <a href="{% url "bookmarks_create" %}"> <span class="glyphicon glyphicon-book"></span> Criar bookmark</a>
-                    </li>
-                    <li>
-                        <a href="{% url "bookmark_logout" %}"> <span class="glyphicon glyphicon-user"></span> Sair</a>
-                    </li>
+                        <li>
+                            <a href="{% url "bookmark_logout" %}"> <span class="glyphicon glyphicon-user"></span> Sair</a>
+                        </li>
                 </ul>
             {% else %}
                 <form class="navbar-form navbar-right" method="post" action="{% url "bookmark_login" %}">

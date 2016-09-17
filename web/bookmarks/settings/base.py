@@ -150,3 +150,4 @@ MEDIA_URL = '/media/'
 
 BOOKMARK_API = os.environ.get("BOOKMARK_API", "http://bookmark.api")
 BOOKMARK_DEFAULT_PASS = os.environ.get("BOOKMARK_DEFAULT_PASS")
+BOOKMARK_DEFAULT_EMAIL = os.environ.get("BOOKMARK_DEFAULT_EMAIL", "bookmark@bookmark.com")

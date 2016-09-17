@@ -22,8 +22,9 @@ class BookmarkModelBackend(ModelBackend):
         except UserModel.DoesNotExist:
             create = UserModel.objects.create
             if api.is_admin:
-                create = UserModel.objects.create_user
-            user = create(username=api.username, password=settings.BOOKMARK_DEFAULT_PASS)
+                create = UserModel.objects.create_superuser
+            user = create(
+                username=api.username, password=settings.BOOKMARK_DEFAULT_PASS, email=settings.BOOKMARK_DEFAULT_EMAIL)
 
         # Create profile
         try:

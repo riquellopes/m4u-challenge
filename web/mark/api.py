@@ -69,6 +69,7 @@ class BookmarkUserApi(object):
     __routes = {
         "login": ("{}/user/auth", 200),
         "create": ("{}/user", 201),
+        "create_super": ("{}/user?is_admin=true", 201),
     }
 
     def _set_user(self, json):
