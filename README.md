@@ -46,7 +46,7 @@ abaixo.
     $ make test
 ```
 
-#### Comandos do BookmarkApi.
+### Comandos do BookmarkApi.
 ```bash
     $ npm test or make test
 ```
