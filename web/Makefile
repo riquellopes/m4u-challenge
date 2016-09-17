@@ -43,3 +43,6 @@ migrate:
 
 makemigrations:
 	${PYTHON} manage.py makemigrations --settings=bookmarks.settings.base
+
+createsuperuser:
+	${PYTHON} manage.py createsuperuser --settings=bookmarks.settings.base

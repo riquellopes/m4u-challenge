@@ -84,6 +84,12 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        # 'ENGINE': 'django.db.backends.mysql',
+        # 'NAME': os.getenv('DATABASE_NAME', 'challege'),
+        # "USER": os.environ.get("DATABASE_USERNAME", "root"),
+        # "PASSWORD": os.environ.get("DATABASE_PASSWORD"),
+        # "HOST": os.environ.get("DATABASE_HOST", "localhost"),
+        # "PORT": os.environ.get("DATABASE_PORT", 3306)
     }
 }
 
@@ -140,7 +146,5 @@ STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
-BOOKMARK_API = os.environ.get("BOOKMARK_API")
-
-
-AUTH_USER_MODEL = "mark.BookmarkUser"
+BOOKMARK_API = os.environ.get("BOOKMARK_API", "http://bookmark.api")
+BOOKMARK_DEFAULT_PASS = os.environ.get("BOOKMARK_DEFAULT_PASS")

@@ -15,7 +15,7 @@ var User = require("../models/user");
 
 router.post("/", function(request, response){
     var user = new User({
-        email: request.body.email,
+        username: request.body.username,
         password: request.body.password
     });
 
@@ -25,20 +25,22 @@ router.post("/", function(request, response){
             return response.status(409).json({msg: "User can't be created."});
         }
 
-        logger.info("User created successfull - " + request.body.email);
+        logger.info("User created successfull - " + request.body.username);
         response.status(201).json({msg: "User created", user: user});
     });
 });
 
 router.post("/auth", function(request, response){
-    var email = request.body.email;
+    console.log(request.body);
+    
+    var username = request.body.username;
     var password = request.body.password;
 
-    if( !email || !password ){
+    if( !username || !password ){
         return response.status(401).json({msg: "User or Password not set."});
     }
 
-    User.findOne({email: email}, function(error, user){
+    User.findOne({username: username}, function(error, user){
         if(error){
             return response.send(401);
         }
