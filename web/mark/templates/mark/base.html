@@ -6,58 +6,71 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Bookmark |{% block title %} Home {% endblock %}</title>
-        <!-- <link rel="stylesheet" href="{% static 'bootstrap-3.3.7/css/bootstrap.min.css' %}"> -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+        <script   src="https://code.jquery.com/jquery-2.2.4.min.js"  integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="   crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     </head>
 <body>
-    <div class="container">
-        {% if messages %}
-            <ul class="flashes">
-              {% for message in messages %}
-                <li>
-                    <div class="alert alert-success alert-dismissible fade in">
-                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                      </button>
-                      <p>{{ message }}</p>
-                    </div>
-                </li>
-              {% endfor %}
-            </ul>
-        {% endif %}
-        <div class="header">
-            <nav>
-              <ul class="nav nav-pills pull-right">
-                {% if not user.is_authenticated %}
-                    <li role="presentation">
-                        <div id="navbar" class="navbar-collapse collapse">
-                              <form class="navbar-form navbar-right" method="post" action="{% url "bookmark_login" %}">
-                                    {% csrf_token %}
-                                    <div class="form-group">
-                                      <input type="text" placeholder="usuário" class="form-control" name="username" required>
-                                    </div>
-                                    <div class="form-group">
-                                      <input type="password" placeholder="senha" class="form-control" name="password" required>
-                                    </div>
-                                    <button type="submit" class="btn btn-success">Logar</button>
-                                    <a href="{% url "account" %}" class="btn btn-info">Criar conta</a>
-                              </form>
-                          </div>
-                    </li>
-                {% else %}
-                    <li role="presentation">
-                        <a href="{% url "bookmarks_create" %}" class="btn btn-info btn-sm" role="button">Criar bookmark</a>
-                    </li>
-                    <li role="presentation">
-                        <a href="{% url "bookmark_logout" %}" class="btn btn-danger btn-sm" role="button">Sair</a>
-                    </li>
-                {% endif %}
-              </ul>
-              <h3><a href="{% url "home" %}">Bookmark</a></h3>
-            </nav>
+<div class="container">
 
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="{% url "home" %}">Desafio Bookmark</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            {% if user.is_authenticated  %}
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="{% url "bookmarks" %}"><span class="glyphicon glyphicon-list-alt"></span> Meus bookmarks</a>
+                    </li>
+                    <li>
+                        <a href="{% url "bookmarks_create" %}"> <span class="glyphicon glyphicon-book"></span> Criar bookmark</a>
+                    </li>
+                    <li>
+                        <a href="{% url "bookmark_logout" %}"> <span class="glyphicon glyphicon-user"></span> Sair</a>
+                    </li>
+                </ul>
+            {% else %}
+                <form class="navbar-form navbar-right" method="post" action="{% url "bookmark_login" %}">
+                      {% csrf_token %}
+                      <div class="form-group">
+                        <input type="text" placeholder="Usuário" class="form-control" name="username">
+                      </div>
+                      <div class="form-group">
+                        <input type="password" placeholder="Password" class="form-control" name="password">
+                      </div>
+                      <button type="submit" class="btn btn-success">Acessar</button>
+                    <a href="{% url "account" %}" class="btn btn-info">Criar conta</a>
+                 </form>
+            {% endif %}
+        </div>
+      </div>
+    </nav>
+    {% if messages %}
+         <ul class="flashes list-unstyled">
+           {% for message in messages %}
+             <li>
+                 <div class="alert alert-success alert-dismissible">
+                   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                     <span aria-hidden="true">&times;</span>
+                   </button>
+                   <p>{{ message }}</p>
+                 </div>
+             </li>
+           {% endfor %}
+         </ul>
+     {% endif %}
+    <div class="jumbotron jumbotron-fluid">
         {% block content %}{% endblock %}
     </div>
+</div>
 </body>
 </html>
