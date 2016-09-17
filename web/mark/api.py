@@ -96,9 +96,6 @@ class BookmarkUserApi(object):
             return self._set_user(response.json())
         raise BookmarkUserApiException("User does not created.")
 
-    def get(self):
-        pass
-
     def list(self, token):
         response = requests.get(
             "{}/user/".format(BOOKMARK_API), headers={"x-access-token": token})

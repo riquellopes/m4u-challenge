@@ -30,6 +30,7 @@ class BookmarkModelBackend(ModelBackend):
             profile = Profile.objects.get(user=user)
         except Profile.DoesNotExist:
             profile = Profile()
+            profile.user = user
         profile.token = api.token
         profile.save()
         return user
