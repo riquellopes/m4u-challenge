@@ -21,7 +21,7 @@ class BookmarkApi(object):
         if response.status_code == 200:
             json = response.json()
             return ({"url": bookmark['url'], "id": bookmark['_id']} for bookmark in json)
-        return []
+        return ()
 
     def get(self, id_bookmark):
         response = requests.get(
@@ -66,6 +66,10 @@ class BookmarkApi(object):
 
 
 class BookmarkUserApi(object):
+    __routes = {
+        "login": ("{}/user/auth", 200),
+        "create": ("{}/user", 201),
+    }
 
     def _set_user(self, json):
         self.username = json['user']['username']
@@ -74,24 +78,18 @@ class BookmarkUserApi(object):
         self.is_admin = json['user']['is_admin']
         return json
 
-    def login(self, username, password):
-        try:
+    def __getattr__(self, name):
+        def function(*args):
+            route = self.__routes[name]
+
             response = requests.post(
-                "{}/user/auth".format(BOOKMARK_API), data={"username": username, "password": password})
+                route[0].format(BOOKMARK_API), data={"username": args[0], "password": args[1]})
 
-            if response.status_code == 200:
-                return self._set_user(response.json())
-            raise BookmarkUserApiException("User does not exist.")
-        except:
-            raise BookmarkUserApiException("User does not exist.")
-
-    def create(self, username, password):
-        response = requests.post(
-            "{}/user".format(BOOKMARK_API), data={"username": username, "password": password})
-
-        if response.status_code == 201:
-            return self._set_user(response.json())
-        raise BookmarkUserApiException("User does not created.")
+            json = response.json()
+            if response.status_code == route[1]:
+                return self._set_user(json)
+            raise BookmarkUserApiException(json["msg"])
+        return function
 
     def list(self, token):
         response = requests.get(
@@ -99,4 +97,4 @@ class BookmarkUserApi(object):
 
         if response.status_code == 200:
             return response.json()
-        raise BookmarkUserApiException("Users does not exist.")
+        raise BookmarkUserApiException(response.json()["msg"])

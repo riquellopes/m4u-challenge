@@ -24,10 +24,10 @@ setup-local: venv
 	${PIP} install -r requirements_dev.txt
 
 test: clean
-	${PY_TEST} -s -r a --color=yes
+	${PY_TEST} -s -r a --color=yes -vvv
 
 test-cov: clean
-	${PY_TEST} --cov=menu --cov-report=term --cov-report=html -s -r a --color=yes
+	${PY_TEST} --cov=mark --cov-report=term --cov-report=html -s -r a --color=yes
 
 collectstatic:
 	${PYTHON} manage.py collectstatic --noinput --settings=bookmarks.settings.production

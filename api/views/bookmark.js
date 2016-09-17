@@ -91,8 +91,8 @@ router.delete("/:id_bookmark", function(request, response){
 
     Bookmark.remove({_id:id_bookmark, user:user}, function(error, document){
         if(error){
-            logger.error("Error");
-            return response.json({message: "Error."});
+            logger.error("Error", error);
+            return response.status(500).json({message: "Error."});
         }
 
         response.json({message: "Bookmark "+id_bookmark+" removed."});

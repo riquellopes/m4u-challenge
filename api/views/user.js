@@ -56,17 +56,19 @@ router.post("/auth", function(request, response){
     var password = request.body.password;
 
     if( !username || !password ){
-        return response.status(401).json({msg: "User or Password not set."});
+        logger.warn("blank username or password", request.body);
+        return response.status(401).json({msg: "Username or Password not set."});
     }
 
     User.findOne({username: username}, function(error, user){
         if(error){
-            return response.send(401);
+            logger.error("Error at findOne user.", error);
+            return response.status(401).json({msg: "Username or password is invalid."});
         }
 
         user.validation(password, function(isMatch){
             if(!isMatch){
-                return response.send(401);
+                return response.status(401).json({msg: "Username or password is invalid."});
             }
 
             // define expiration time.
