@@ -24,14 +24,13 @@ exports.UserMiddleware = function(request, response, next){
 
             if(decode.exp <= Date.now()){
                 logger.warn("Token expired", decode);
-                response.json(400, {message: "Token expired."});
+                return response.json(428, {message: "Token expired."});
             }
 
-            //  "-password -__v -create_at"
             User.findOne({_id: decode.iss}, function(error, user){
-                if(error){
+                if(error || !user){
                     logger.warn("Uses does not exist.", error);
-                    response.status(500);
+                    return response.json(428, {message: "Uses does not exist."});
                 }
 
                 logger.info("Middleware set user on request ", user);
@@ -45,6 +44,6 @@ exports.UserMiddleware = function(request, response, next){
         }
     } else {
         logger.warn("Token not found - ", token);
-        response.json(401, {message: "Toke not found."});
+        response.json(428, {message: "Toke not found."});
     }
 }

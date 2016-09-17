@@ -28,6 +28,14 @@
         <div id="navbar" class="navbar-collapse collapse">
             {% if user.is_authenticated  %}
                 <ul class="nav navbar-nav navbar-right">
+                    {% if user.is_superuser%}
+                        <li>
+                            <a href="{% url 'users' %}"><span class="glyphicon glyphicon-list-alt"></span> Usuários cadastrados</a>
+                        </li>
+                        <li>
+                            <a href="#"><span class="glyphicon glyphicon-list-alt"></span> Listar bookmarks</a>
+                        </li>
+                    {% endif %}
                     <li>
                         <a href="{% url "bookmarks" %}"><span class="glyphicon glyphicon-list-alt"></span> Meus bookmarks</a>
                     </li>

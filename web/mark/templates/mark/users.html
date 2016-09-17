@@ -1,0 +1,18 @@
+{% extends "mark/base.html" %} {% block title %}Bookmarks{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-lg-12">
+          <h2>Usuários cadastrados</h2>
+              <ol>
+                  {% for user in object_list %}
+                      <li>
+                          <b>Usuário</b>: {{user.username}}
+                          <b>Data criação</b>: {{user.create_at}}
+                          <b>Adminstrador</b>: {{user.is_admin}}
+                      </li>
+                  {% endfor %}
+              </ol>
+        </div>
+    </div>
+{% endblock %}

@@ -13,6 +13,10 @@ var TOKEN_SECRET = process.env.TOKEN_SECRET;
 // Model
 var User = require("../models/user");
 
+// Get middleware
+var middleware = require("../middlewares/user");
+
+
 router.post("/", function(request, response){
     var user = new User({
         username: request.body.username,
@@ -30,9 +34,24 @@ router.post("/", function(request, response){
     });
 });
 
+router.get("/", middleware.UserMiddleware, function(request, response){
+    var user = request.user;
+
+    if(!user.is_admin){
+        logger.warn("User is not an admin.", user);
+        return response.status(401).json({msg: "User is not an admin"});
+    }
+
+    User.find({}, function(error, list){
+        if(error){
+            return response.send(500).json({msg: "Error."});
+        }
+
+        response.json(list);
+    });
+});
+
 router.post("/auth", function(request, response){
-    console.log(request.body);
-    
     var username = request.body.username;
     var password = request.body.password;
 

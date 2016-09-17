@@ -91,5 +91,10 @@ class BookmarkUserApi(object):
     def get(self):
         pass
 
-    def list(self):
-        pass
+    def list(self, token):
+        response = requests.get(
+            "{}/user/".format(BOOKMARK_API), headers={"x-access-token": token})
+
+        if response.status_code == 200:
+            return response.json()
+        raise BookmarkUserApiException("Users does not exist.")

@@ -6,7 +6,9 @@ from django.core.urlresolvers import reverse_lazy
 from django.shortcuts import render, redirect
 
 from mark.forms import CreateAccount, CreateBookmark, EditBookmark
-from mark.api import BookmarkApi
+from mark.api import BookmarkApi, BookmarkUserApi
+
+# Users views
 
 
 class CreateAccountView(SuccessMessageMixin, FormView):
@@ -17,6 +19,16 @@ class CreateAccountView(SuccessMessageMixin, FormView):
 
     def form_valid(self, form):
         return super(CreateAccountView, self).form_valid(form)
+
+
+class UserListView(ListView):
+    template_name = "mark/users.html"
+
+    def get_queryset(self):
+        api = BookmarkUserApi()
+        return api.list(self.request.user.profile.token)
+
+# Bookmarks views
 
 
 class BookmarkListView(ListView):
