@@ -49,3 +49,6 @@ createsuperuser:
 
 createsuperuser-bookmark:
 	${PYTHON} manage.py bookmark_super_user --settings=bookmarks.settings.base
+
+create-db:
+	mysql -uroot -e "CREATE DATABASE IF NOT EXISTS bookmarks" -p
