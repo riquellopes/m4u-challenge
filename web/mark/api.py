@@ -85,9 +85,6 @@ class BookmarkUserApi(object):
         except:
             raise BookmarkUserApiException("User does not exist.")
 
-    def logout(self):
-        pass
-
     def create(self, username, password):
         response = requests.post(
             "{}/user".format(BOOKMARK_API), data={"username": username, "password": password})
