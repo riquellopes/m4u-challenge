@@ -12,3 +12,6 @@ ADD . /web/
 RUN pip install -U pip
 RUN pip install -r requirements.txt
 RUN pip install -r requirements_dev.txt
+
+RUN make makemigrations
+RUN make migrate 
