@@ -26,6 +26,7 @@ router.post("/", function(request, response){
 
     user.save(function(error){
         if( error ){
+            // console.log(error)
             logger.error(error);
             return response.status(409).json({msg: "User can't be created."});
         }

@@ -4,19 +4,16 @@ var app = require("../server").app;
 var log4js = require('log4js');
 var User = require("../models/user");
 
-describe("created user", function(){
+describe("created user jamelao", function(){
     before(function(){
+        User.remove({username: "jamelao"}, function(){});
         log4js.clearAppenders();
     });
 
-    after(function(){
-        User.remove({}, function(){});
-    });
-
-    it("should return status 200 and json when user was created.", function(done){
+    it("should return status 201 and json.", function(done){
         request(app)
             .post("/user/")
-            .send({email: "riquellopes@gmail.com", password: 12345})
+            .send({username: "jamelao", password: 12345})
             .expect(201)
             .end(function(err, res){
                 if( err ) return done(err);
@@ -27,10 +24,10 @@ describe("created user", function(){
             });
     });
 
-    it("should return status 209 and msg, when user was not created.", function(done){
+    it("should return status 409 and msg, when user was not created.", function(done){
         request(app)
             .post("/user/")
-            .send({email: "riquellopes@gmail.com", password: 12345})
+            .send({username: "jamelao", password: 12345})
             .expect(409)
             .end(function(err, res){
                 if( err ) return done(err);
@@ -43,23 +40,48 @@ describe("created user", function(){
 });
 
 
-describe("auth user", function(){
+describe("auth user kiko", function(){
     before(function(){
+        var user = new User({
+            username: "kiko",
+            password: "12345"
+        });
+
+        user.save({}, function(){});
+
         log4js.clearAppenders();
     });
 
+    after(function(){
+        User.remove({username: "kiko"}, function(error, doc){});
+    });
 
-    it("should user its ok, he can authenticate.", function(){
+    it("should auth user with information ok.", function(){
         request(app)
             .post("/user/auth/")
+            .send({username: "kiko", password: 12345})
             .expect('Content-Type', /json/)
-            .expect(401)
+            .expect(200)
             .end(function(err, res){
                 if( err ) return done(err);
 
-                assert.equal(res.body.msg, "User or Password not set.");
+                assert.equal(res.body.user, "jamelao");
                 done();
             });
     });
+
+    // it("if username and password does not set.", function(done){
+    //     request(app)
+    //         .post("/user/auth/")
+    //         .send({})
+    //         .expect('Content-Type', /json/)
+    //         .expect(401)
+    //         .end(function(err, res){
+    //             if( err ) return done(err);
+    //
+    //            assert.equal(res.body.msg, "Username or Password not set.");
+    //             done();
+    //         });
+    // });
 
 });
