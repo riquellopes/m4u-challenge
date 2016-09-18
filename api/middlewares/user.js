@@ -23,14 +23,14 @@ exports.UserMiddleware = function(request, response, next){
             var decode = jwt.decode(token, TOKEN_SECRET);
 
             if(decode.exp <= Date.now()){
-                logger.warn("Token expired", decode);
-                return response.json(428, {message: "Token expired."});
+                logger.warn("Token expired - ", decode);
+                return response.status(428).json({message: "Token expired."});
             }
 
             User.findOne({_id: decode.iss}, function(error, user){
                 if(error || !user){
-                    logger.warn("Uses does not exist.", error);
-                    return response.json(428, {message: "Uses does not exist."});
+                    logger.warn("Uses does not exist - ", error);
+                    return response.status(428).json({message: "Uses does not exist."});
                 }
 
                 logger.info("Middleware set user on request ", user);
@@ -40,10 +40,10 @@ exports.UserMiddleware = function(request, response, next){
 
         }catch(error){
             logger.error("User middleware error - ", error);
-            return response.json(401, {message: "Token invalid."});
+            return response.status(401).json({message: "Token invalid."});
         }
     } else {
         logger.warn("Token not found - ", token);
-        response.json(428, {message: "Toke not found."});
+        response.status(428).json({message: "Toke not found."});
     }
 }

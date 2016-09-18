@@ -63,7 +63,7 @@ router.post("/auth", function(request, response){
     }
 
     User.findOne({username: username}, function(error, user){
-        if(error){
+        if(error || !user){
             logger.error("Error at findOne user.", error);
             return response.status(401).json({msg: "Username or password is invalid."});
         }
