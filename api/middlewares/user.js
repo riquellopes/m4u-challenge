@@ -44,6 +44,6 @@ exports.UserMiddleware = function(request, response, next){
         }
     } else {
         logger.warn("Token not found - ", token);
-        response.status(428).json({message: "Toke not found."});
+        return response.status(428).json({message: "Token not found."});
     }
 }
