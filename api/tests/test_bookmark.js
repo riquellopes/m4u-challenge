@@ -57,4 +57,18 @@ describe("create bookmark", function(){
                 done();
             });
     });
+
+    it("Should return 401 when the user wasn't admin", function(done){
+        request(app)
+            .get("/bookmark/group-by")
+            .set('x-access-token', token)
+            .expect(401)
+            .end(function(err, res){
+                if( err ) return done(err);
+
+                assert.equal(res.body.msg, "User is not an admin");
+                done();
+            });
+    });
+
 });
