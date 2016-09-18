@@ -27,7 +27,7 @@ exports.UserMiddleware = function(request, response, next){
                 return response.status(428).json({message: "Token expired."});
             }
 
-            User.findOne({_id: decode.iss}, function(error, user){
+            User.findOne({_id: decode.iss}, "-password -__v", function(error, user){
                 if(error || !user){
                     logger.warn("Uses does not exist - ", error);
                     return response.status(428).json({message: "Uses does not exist."});
