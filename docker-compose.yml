@@ -25,6 +25,7 @@ services:
      - 5000:5000
     volumes:
      - ./api:/api
+     - /api/node_modules
     working_dir: /api
     depends_on:
      - mongo
