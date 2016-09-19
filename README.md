@@ -18,10 +18,6 @@ abaixo.
     $ docke-compose up or docke-compose stop
 ```
 ### Variavéis de Ambiente
-- DB_NAME
-- DB_USER
-- DB_PASS
-- DB_HOST
 - BOOKMARK_API
 - BOOKMARK_DEFAULT_PASS
 - MONGO_URI

@@ -14,7 +14,7 @@ services:
      - api
     env_file:
      - web/.env
-    command: /bin/bash -c "make debug"
+    command: /bin/bash -c "make migrate; make debug"
   api:
     build: api/.
     restart: always
