@@ -28,7 +28,6 @@ abaixo.
 ```bash
 
     $ make setup-local # Cria setup para o ambiente de desenvolvimento.
-    $ make create-db # Cria banco.
     $ make migrate # Criar tabelas.
     $ make debug # Executar projeto em modo debug.
     $ make test # Executar test
